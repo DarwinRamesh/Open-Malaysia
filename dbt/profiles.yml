@@ -1,0 +1,12 @@
+open_malaysia:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5433
+      user: darwin
+      password: "{{ env_var('POSTGRES_PASSWORD') }}"
+      dbname: open_malaysia
+      schema: public
+      threads: 2
