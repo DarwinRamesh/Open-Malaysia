@@ -11,5 +11,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  metabase:
+    image: metabase/metabase:latest
+    container_name: open_malaysia_metabase
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+
 volumes:
   postgres_data:
