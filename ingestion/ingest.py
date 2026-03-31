@@ -22,6 +22,13 @@ DATASETS = [
         "value_columns": ["crimes"],
         "format": "parquet"
     },
+    {
+    "url": "https://storage.dosm.gov.my/labour/lfs_month_sa.parquet",
+    "table": "raw.lfs_month_sa",
+    "natural_key": ["date"],
+    "value_columns": ["lf", "lf_employed", "lf_unemployed", "p_rate", "u_rate"],
+    "format": "parquet"
+    },
 ]
 
 def get_connection():

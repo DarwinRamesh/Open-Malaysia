@@ -5,7 +5,7 @@ open_malaysia:
       type: postgres
       host: localhost
       port: 5433
-      user: darwin
+      user: postgres
       password: "{{ env_var('POSTGRES_PASSWORD') }}"
       dbname: open_malaysia
       schema: public
