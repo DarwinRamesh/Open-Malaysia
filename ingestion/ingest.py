@@ -1,7 +1,8 @@
+import os
+
 import polars as pl
 import psycopg
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
@@ -9,30 +10,18 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 DATASETS = [
     {
-        "url": "https://storage.data.gov.my/agriculture/crops_district_production.parquet",
-        "table": "raw.crops_district_production",
-        "natural_key": ["date", "state", "district", "crop_type", "crop_species"],
-        "value_columns": ["production"],
-        "format": "parquet"
-    },
-    {
-        "url": "https://storage.data.gov.my/publicsafety/crime_district.parquet",
-        "table": "raw.crime_district",
-        "natural_key": ["date", "state", "district", "category", "type"],
-        "value_columns": ["crimes"],
-        "format": "parquet"
-    },
-    {
-    "url": "https://storage.dosm.gov.my/labour/lfs_month_sa.parquet",
-    "table": "raw.lfs_month_sa",
-    "natural_key": ["date"],
-    "value_columns": ["lf", "lf_employed", "lf_unemployed", "p_rate", "u_rate"],
-    "format": "parquet"
+        "url": "https://storage.dosm.gov.my/labour/lfs_month_sa.parquet",
+        "table": "raw.lfs_month_sa",
+        "natural_key": ["date"],
+        "value_columns": ["lf", "lf_employed", "lf_unemployed", "p_rate", "u_rate"],
+        "format": "parquet",
     },
 ]
 
+
 def get_connection():
     return psycopg.connect(DATABASE_URL)
+
 
 def create_table(conn, dataset: dict, df: pl.DataFrame):
     schema, table = dataset["table"].split(".")
@@ -65,6 +54,7 @@ def create_table(conn, dataset: dict, df: pl.DataFrame):
         """)
         conn.commit()
 
+
 def ingest(conn, dataset: dict, df: pl.DataFrame):
     all_columns = dataset["natural_key"] + dataset["value_columns"]
     cols_sql = ", ".join(all_columns)
@@ -74,14 +64,18 @@ def ingest(conn, dataset: dict, df: pl.DataFrame):
 
     with conn.cursor() as cur:
         rows = df.select(all_columns).to_dicts()
-        cur.executemany(f"""
+        cur.executemany(
+            f"""
             INSERT INTO {dataset["table"]} ({cols_sql})
             VALUES ({values_sql})
             ON CONFLICT ({conflict_sql})
             DO UPDATE SET {updates_sql};
-        """, rows)
+        """,
+            rows,
+        )
         conn.commit()
     print(f"  Upserted {len(rows)} rows into {dataset['table']}.")
+
 
 def load(dataset: dict) -> pl.DataFrame:
     print(f"  Fetching {dataset['url']}...")
@@ -92,6 +86,7 @@ def load(dataset: dict) -> pl.DataFrame:
     df = df.with_columns(pl.col("date").cast(pl.Date))
     return df
 
+
 def main():
     with get_connection() as conn:
         for dataset in DATASETS:
@@ -100,6 +95,7 @@ def main():
             create_table(conn, dataset, df)
             ingest(conn, dataset, df)
     print("\nAll datasets ingested successfully.")
+
 
 if __name__ == "__main__":
     main()
