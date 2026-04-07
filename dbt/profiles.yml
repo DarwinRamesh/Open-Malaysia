@@ -7,15 +7,15 @@ open_malaysia:
       port: 5433
       user: postgres
       password: "{{ env_var('POSTGRES_PASSWORD') }}"
-      dbname: open_malaysia
+      dbname: openmalaysia
       schema: public
       threads: 2
     prod:
       type: postgres
       host: dpg-d6vpbcchg0os739uh4m0-a.singapore-postgres.render.com
       port: 5432
-      user: open_malaysia_user
+      user: postgres
       password: "{{ env_var('RENDER_DB_PASSWORD') }}"
-      dbname: open_malaysia
+      dbname: openmalaysia
       schema: dbt_default
       threads: 2
