@@ -1,0 +1,8 @@
+name: openmalaysia
+type: postgresql
+options:
+  host: localhost
+  port: 5433
+  database: openmalaysia
+  user: postgres
+  password: darwin06
