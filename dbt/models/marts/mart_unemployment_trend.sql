@@ -12,7 +12,7 @@ enriched AS (
         unemployed_labour_force,
         labour_force,
         unemployment_rate - LAG(unemployment_rate)
-            OVER (ORDER BY date)                  AS u_rate_mom_change
+            OVER (ORDER BY date)                  AS unemployment_monthly_change
     FROM base
 )
 SELECT * FROM enriched

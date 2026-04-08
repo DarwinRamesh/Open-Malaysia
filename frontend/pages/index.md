@@ -1,56 +1,26 @@
----
-title: Welcome to Evidence
----
+# Malaysian Labour Market
 
-<Details title='How to edit this page'>
-
-  This page can be found in your project at `/pages/index.md`. Make a change to the markdown file and save it to see the change take effect in your browser.
-</Details>
-
-```sql categories
-  select
-      category
-  from needful_things.orders
-  group by category
+Monthly employment data from the Department of Statistics Malaysia (DOSM).
+```sql unemployment
+SELECT * FROM openmalaysia.mart_unemployment_trend
+ORDER BY date
 ```
 
-<Dropdown data={categories} name=category value=category>
-    <DropdownOption value="%" valueLabel="All Categories"/>
-</Dropdown>
-
-<Dropdown name=year>
-    <DropdownOption value=% valueLabel="All Years"/>
-    <DropdownOption value=2019/>
-    <DropdownOption value=2020/>
-    <DropdownOption value=2021/>
-</Dropdown>
-
-```sql orders_by_category
-  select 
-      date_trunc('month', order_datetime) as month,
-      sum(sales) as sales_usd,
-      category
-  from needful_things.orders
-  where category like '${inputs.category.value}'
-  and date_part('year', order_datetime) like '${inputs.year.value}'
-  group by all
-  order by sales_usd desc
-```
-
-<BarChart
-    data={orders_by_category}
-    title="Sales by Month, {inputs.category.label}"
-    x=month
-    y=sales_usd
-    series=category
+<LineChart 
+    data={unemployment} 
+    x="month_label" 
+    y={["unemployment_rate", "participation_rate", "unemployment_monthly_change"]}
+    title="Rates (%)"
 />
 
-## What's Next?
-- [Connect your data sources](settings)
-- Edit/add markdown files in the `pages` folder
-- Deploy your project with [Evidence Cloud](https://evidence.dev/cloud)
+<LineChart 
+    data={unemployment} 
+    x="month_label" 
+    y={["labour_force", "unemployed_labour_force"]}
+    title="Labour Force (thousands)"
+/>
 
-## Get Support
-- Message us on [Slack](https://slack.evidence.dev/)
-- Read the [Docs](https://docs.evidence.dev/)
-- Open an issue on [Github](https://github.com/evidence-dev/evidence)
+{#if unemployment.length > 0}
+The unemployment rate as of **{unemployment[unemployment.length - 1].month_label}** is **{unemployment[unemployment.length - 1].unemployment_rate}%**.
+
+{/if}
