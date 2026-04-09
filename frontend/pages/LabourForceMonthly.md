@@ -2,22 +2,35 @@
 
 Monthly employment data from the Department of Statistics Malaysia (DOSM).
 ```sql unemployment
-SELECT * FROM openmalaysia.mart_unemployment_trend
-ORDER BY date
+SELECT 
+    date,
+    unemployment_rate,
+    participation_rate,
+    unemployed_labour_force,
+    labour_force,
+    unemployment_monthly_change
+FROM openmalaysia.mart_unemployment_trend
+ORDER BY date ASC
 ```
 
 <LineChart 
     data={unemployment} 
-    x="month_label" 
+    x="date" 
     y={["unemployment_rate", "participation_rate", "unemployment_monthly_change"]}
     title="Rates (%)"
+    sort="true"
+    yAxisTitle="Rate"
+    xAxisTitle="Date"
 />
 
 <LineChart 
     data={unemployment} 
-    x="month_label" 
+    x="date" 
     y={["labour_force", "unemployed_labour_force"]}
     title="Labour Force (thousands)"
+    sort="true"
+    yAxisTitle="Thousands"
+    xAxisTitle="Date"
 />
 
 {#if unemployment.length > 0}
