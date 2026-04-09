@@ -79,6 +79,8 @@ plugins:
     "@evidence-dev/sqlite": {}
     "@evidence-dev/trino": {}
     "@evidence-dev/motherduck": {}
-
-customizations:
-  builtWithEvidence: false
+    
+evidence:
+  deployment:
+    preview:
+      show_queries: false

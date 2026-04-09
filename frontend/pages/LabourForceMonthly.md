@@ -1,3 +1,7 @@
+---
+hide_queries: true
+---
+
 # Malaysian Labour Market
 
 Monthly employment data from the Department of Statistics Malaysia (DOSM).
