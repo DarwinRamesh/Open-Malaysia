@@ -1,0 +1,2 @@
+function o(e,r){return e.length!==r.length?!1:e.every((n,t)=>n===r[t])}function i(e){if(e===null||typeof e!="object")throw Error("reqProps must be a non-null object");if(Object.keys(e).length===0)throw Error("reqProps must not be empty");const r=[];for(const[n,t]of Object.entries(e))t===void 0&&r.push(`Missing required prop: "${n}".`);if(r.length>0)throw new Error(r.join(`
+`))}export{o as a,i as c};
