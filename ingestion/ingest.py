@@ -90,13 +90,16 @@ def load(dataset: dict) -> pl.DataFrame:
         df = pl.read_parquet(dataset["url"])
     else:
         df = pl.read_csv(dataset["url"])
-    # Ensure 'date' column is cast to Date type if present
     if dataset["table"] == "raw.cpi_headline":
-        # Melt the DataFrame to transform from wide to long format
         id_vars = ["date"]
         value_vars = [col for col in df.columns if col not in id_vars]
-        df = df.melt(id_vars=id_vars, value_vars=value_vars, variable_name="division", value_name="index")
-    
+        df = df.melt(
+            id_vars=id_vars,
+            value_vars=value_vars,
+            variable_name="division",
+            value_name="index",
+        )
+
     if "date" in df.columns:
         df = df.with_columns(pl.col("date").cast(pl.Date))
     return df
