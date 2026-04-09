@@ -1,0 +1,1 @@
+SELECT * FROM marts.mart_cpi_headline
