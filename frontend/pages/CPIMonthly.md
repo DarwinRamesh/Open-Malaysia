@@ -9,13 +9,6 @@ It is not an entirely accurate representation of how much purchasing power one r
 SELECT date FROM openmalaysia.mart_cpi_headline
 ```
 
-<DateRange
-name="cpi_dates"
-data={all_dates}
-dates=date
-label="Select Period"
-/>
-
 ```sql cpi
 SELECT 
     date, 
@@ -26,11 +19,44 @@ WHERE date BETWEEN '${inputs.cpi_dates.start}' AND '${inputs.cpi_dates.end}'
 ORDER BY date ASC
 ```
 
+```sql cpi_core
+SELECT 
+    date, 
+    division, 
+    index 
+FROM openmalaysia.mart_cpi_core
+WHERE date BETWEEN '${inputs.cpi_dates2.start}' AND '${inputs.cpi_dates2.end}'
+ORDER BY date ASC
+```
+
+<DateRange
+name="cpi_dates"
+data={all_dates}
+dates=date
+label="Select Period"
+/>
+
 <LineChart
 data={cpi}
 x=date
 y=index
 series=division
-title="Monthly CPI Analysis"
+title="Monthly CPI over 13 different sectors"
+chartAreaHeight=400
+/>
+
+<DateRange
+name="cpi_dates2"
+data={all_dates}
+dates=date
+label="Select Period"
+/>
+
+<LineChart
+data={cpi_core}
+x=date
+y=index
+series=division
+title="Monthly Core CPI"
 chartAreaHeight=400
 />
