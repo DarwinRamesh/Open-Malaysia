@@ -5,4 +5,4 @@ options:
   port: 5433
   database: openmalaysia
   user: postgres
-  password: darwin06
+  password: "{{ env_var('POSTGRES_PASSWORD') }}"

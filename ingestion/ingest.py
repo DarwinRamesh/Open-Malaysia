@@ -30,6 +30,13 @@ DATASETS = [
         "value_columns": ["index"],
         "format": "parquet",
     },
+    {
+        "url": "https://storage.dosm.gov.my/cpi/cpi_2d_state.parquet",
+        "table": "raw.cpi_state",
+        "natural_key": ["date","state","division"],
+        "value_columns": ["index"],
+        "format": "parquet",
+    },
 ]
 
 
@@ -106,7 +113,6 @@ def load(dataset: dict) -> pl.DataFrame:
             variable_name="division",
             value_name="index",
         )
-
     if "date" in df.columns:
         df = df.with_columns(pl.col("date").cast(pl.Date))
     return df
