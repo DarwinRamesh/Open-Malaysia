@@ -23,6 +23,13 @@ DATASETS = [
         "value_columns": ["index"],
         "format": "parquet",
     },
+    {
+        "url": "https://storage.dosm.gov.my/cpi/cpi_2d_core.parquet",
+        "table": "raw.cpi_core",
+        "natural_key": ["date", "division"],
+        "value_columns": ["index"],
+        "format": "parquet",
+    },
 ]
 
 
